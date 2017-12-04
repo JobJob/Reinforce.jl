@@ -50,7 +50,7 @@ abstract type AbstractEnvironment end
 """
     reset!(env)
 
-Reset an environment.
+Reset an environment and return its state
 """
 function reset! end
 
@@ -61,8 +61,16 @@ Move the simulation forward, collecting a reward and getting the next state.
 """
 function step! end
 
+"""
+`r, s′ = step!(env::AbstractEnvironment, a)`
+
+Shorthand for `step!(env, state(env), a)`
+"""
+step!(env::AbstractEnvironment, a) = step!(env, state(env), a)
+
 # note for developers: you should also implement Base.done(env) for episodic environments
 finished(env::AbstractEnvironment, s′) = false
+finished(env::AbstractEnvironment) = finished(env, state(env)) = false
 
 
 """
