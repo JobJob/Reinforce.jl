@@ -51,7 +51,7 @@ function Base.next(ep::Episode, i)
   ep.last_reward = last_reward
   ep.niter = i
 
-  (s, a, r, s′), i+1
+	(s, a, last_reward, s′), i+1
 end
 
 """
