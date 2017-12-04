@@ -39,9 +39,10 @@ end
 mutable struct MountainCar <: AbstractEnvironment
   state::MountainCarState
   reward::Float64
+  total_reward::Float64
   seed::Int
 end
-MountainCar(seed=-1) = MountainCar(MountainCarState(0.0, 0.0), 0.0, seed)
+MountainCar(seed=-1) = MountainCar(MountainCarState(0.0, 0.0), 0.0, 0.0, seed)
 
 function reset!(env::MountainCar)
   if env.seed >= 0
@@ -52,7 +53,8 @@ function reset!(env::MountainCar)
   env.state.position = rand(Uniform(min_start, max_start))
   env.state.velocity = 0.0
 
-  return
+  env.total_reward = env.reward = 0.0
+  env.state
 end
 
 actions(env::MountainCar, s) = DiscreteSet(1:3)
@@ -69,7 +71,9 @@ function step!(env::MountainCar, s::MountainCarState, a::Int)
   end
   position = clamp(position, min_position, max_position)
   env.state = MountainCarState(position, velocity)
+
   env.reward = -1
+  env.total_reward += env.reward
 
   return env.reward, env.state
 end
