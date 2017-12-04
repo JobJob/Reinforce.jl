@@ -70,7 +70,7 @@ step!(env::AbstractEnvironment, a) = step!(env, state(env), a)
 
 # note for developers: you should also implement Base.done(env) for episodic environments
 finished(env::AbstractEnvironment, s′) = false
-finished(env::AbstractEnvironment) = finished(env, state(env)) = false
+finished(env::AbstractEnvironment) = finished(env, state(env))
 
 
 """
@@ -93,9 +93,16 @@ state(env::AbstractEnvironment) = env.state
 """
     r = reward(env)
 
-Return the current reward of the environment.
+The most recent single step reward returned by the environment
 """
 reward(env::AbstractEnvironment) = env.reward
+
+"""
+`totalr = total_reward(env)`
+
+The cumulative reward of the environment since it was last `reset!`
+"""
+total_reward(env::AbstractEnvironment) = env.total_reward
 
 """
     ismdp(env)::Bool
