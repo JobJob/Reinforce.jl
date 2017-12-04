@@ -25,6 +25,8 @@ function Base.done(ep::Episode, i)
   finished(ep.env, state(ep.env))
 end
 
+Base.in(a, A::LearnBase.IntervalSet) = A.lo[1] <= a[1] <= A.hi[1]
+
 # take one step in the enviroment after querying the policy for an action
 function Base.next(ep::Episode, i)
   env = ep.env
